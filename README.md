@@ -7,7 +7,7 @@ Dient als Sharepoint für unser Java Projekt
 1. Git Repository klonen im VSCode Terminal:
 git clone https://github.com/DEIN_USERNAME/DEIN_REPOS.git -> gib hier einfach die Url des repositories ein
 In das Projektverzeichnis wechseln:
-cd DEIN_REPOS - name des directories angeben
+cd Mini-Bank - name des directories angeben
 
 
 Wie man seinen Code pusht:
