@@ -11,6 +11,7 @@ cd Java-Projekt-Mini-Bank - name des directories angeben
 
 
 Wie man seinen Code pusht:
+0. die neue Datei in das geklonte repo reintuhen
 
 1. git checkout feature
 
