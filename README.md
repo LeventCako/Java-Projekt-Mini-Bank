@@ -23,3 +23,16 @@ git commit -m "Beschreibung der Änderungen"
 
 3. Pushen:
 git push main feature-mein-feature -> name deines features welches du addest 
+
+
+4. Pull Request (PR) erstellen
+
+Gehe zu: https://github.com/LeventCako/Java-Projekt-Mini-Bank
+Du siehst oben eine Meldung wie
+"Compare & pull request"
+Klicke darauf
+Wähle:
+Base Branch: main
+Compare Branch: feature/dein-feature-name
+Füge eine kurze Beschreibung deines Features hinzu
+Klicke auf "Create pull request"
