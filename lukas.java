@@ -1,6 +1,6 @@
 import java.util.Scanner;
 
-public class Main {
+public class lukas {
 
     static Scanner scanner = new Scanner(System.in);
 
@@ -16,7 +16,7 @@ public class Main {
         username = scanner.nextLine();
 
         while(isRunning){
-            System.out.println("\n***************");
+            System.out.println("\n**************++*");
             System.out.println("Welcome " + username + " to your Banking Programm!");
             System.out.println("***************");
             System.out.println("Choose your Option:");
