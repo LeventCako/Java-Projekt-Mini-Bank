@@ -1,4 +1,6 @@
 import java.util.Scanner;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 
 public class lukas {
 
@@ -6,118 +8,115 @@ public class lukas {
 
     public static void main(String[] args) {
 
-        double balance = 0;
+        BigDecimal balance = BigDecimal.ZERO;
         boolean isRunning = true;
         int choice;
         String username;
 
         // Ask for user details
-        System.out.print("Enter your name: ");
+        System.out.print("Geben Sie Ihren Namen ein: ");
         username = scanner.nextLine();
 
         while(isRunning){
-            System.out.println("\n**************++*");
-            System.out.println("Welcome " + username + " to your Banking Programm!");
-            System.out.println("***************");
-            System.out.println("Choose your Option:");
-            System.out.println("1. Show Balance");
-            System.out.println("2. Deposit");
-            System.out.println("3. Withdraw");
-            System.out.println("4. Transfer");
-            System.out.println("5. Exit");
-            System.out.println("***************");
+            System.out.println("\n***************************************");
+            System.out.println("Willkommen in deinem Online-Banking, " + username + ".");
+            System.out.println("***************************************");
+            System.out.println("Wähle deine Option:");
+            System.out.println("1. Kontostand");
+            System.out.println("2. Einzahlung");
+            System.out.println("3. Auszahlung");
+            System.out.println("4. Überweisung");
+            System.out.println("5. Beenden");
 
             System.out.print("Enter your choice (1-5): ");
             if (scanner.hasNextInt()) {
                 choice = scanner.nextInt();
                 scanner.nextLine(); 
             } else {
-                System.out.println("INVALID INPUT! Please enter a number between 1 and 5.");
+                System.out.println("Ungültige Eingabe. Gebe eine Zahl von 1 bis 5 ein.");
                 scanner.nextLine();
                 continue;
             }
 
             switch(choice){
                 case 1 -> showBalance(balance);
-                case 2 -> balance += deposit();
-                case 3 -> balance -= withdraw(balance);
+                case 2 -> balance = balance.add(deposit());
+                case 3 -> balance = balance.subtract(withdraw(balance));
                 case 4 -> balance = transfer(balance);
                 case 5 -> isRunning = false;
-                default -> System.out.println("INVALID CHOICE. Please enter a number between 1 and 5.");
+                default -> System.out.println("Ungültige Eingabe. Geben Sie bitte eine Zahl von 1 bis 5 ein.");
             }
         }
 
         System.out.println("\n***************************");
-        System.out.println("Thank you, " + username + "! Have a nice day!");
+        System.out.println("Danke, " + username + "! bis zum nächsten Mal!");
         System.out.println("***************************");
 
         scanner.close();
     }
 
     // Show the current balance
-    static void showBalance(double balance){
+    static void showBalance(BigDecimal balance){
         System.out.println("***************");
-        System.out.printf("Your balance: $%.2f\n", balance);
+        System.out.printf("Dein Kontostand: $%.2f%n", balance.setScale(2, RoundingMode.HALF_UP));
     }
 
     // Deposit money into the account
-    static double deposit(){
-        double amount;
-        System.out.print("Enter an amount to be deposited: ");
-        while (!scanner.hasNextDouble()) {
-            System.out.println("INVALID AMOUNT. Please enter a valid number.");
+    static BigDecimal deposit(){
+        System.out.print("Gebe den Betrag zum Einzahlen ein: ");
+        while (!scanner.hasNextBigDecimal()) {
+            System.out.println("Ungültige Eingabe.");
             scanner.next(); // clear the invalid input
         }
-        amount = scanner.nextDouble();
+        BigDecimal amount = scanner.nextBigDecimal();
 
-        if(amount < 0){
-            System.out.println("Amount can't be negative.");
-            return 0;
+        if(amount.compareTo(BigDecimal.ZERO) < 0){
+            System.out.println("Der Einzahlungsbetrag kann nicht negativ sein.");
+            return BigDecimal.ZERO;
         } else {
             return amount;
         }
     }
 
     // Withdraw money from the account
-    static double withdraw(double balance){
-        double amount;
-        System.out.print("Enter amount to be withdrawn: ");
-        while (!scanner.hasNextDouble()) {
-            System.out.println("INVALID AMOUNT. Please enter a valid number.");
+    static BigDecimal withdraw(BigDecimal balance){
+        System.out.print("Gebe den Betrag zum Auszahlen ein: ");
+        while (!scanner.hasNextBigDecimal()) {
+            System.out.println("Ungültige Eingabe.");
             scanner.next(); // clear the invalid input
         }
-        amount = scanner.nextDouble();
+        BigDecimal amount = scanner.nextBigDecimal();
 
-        if(amount > balance){
+        if(amount.compareTo(balance)> 0){
             System.out.println("INSUFFICIENT FUNDS.");
-            return 0;
-        } else if(amount < 0){
-            System.out.println("Amount can't be negative.");
-            return 0;
+            return BigDecimal.ZERO;
+        } else if(amount.compareTo(BigDecimal.ZERO) < 0){
+            System.out.println("Der Betrag darf nicht negativ sein");
+            return BigDecimal.ZERO;
         } else {
             return amount;
         }
     }
 
     // Transfer money to another account (simulating simple transfer between accounts)
-    static double transfer(double balance){
-        double amount;
-        System.out.print("Enter amount to be transferred: ");
-        while (!scanner.hasNextDouble()) {
-            System.out.println("INVALID AMOUNT. Please enter a valid number.");
+    static BigDecimal transfer(BigDecimal balance){
+        BigDecimal amount;
+        System.out.print("Gebe den Betrag zum Überweisen ein: ");
+        while (!scanner.hasNextBigDecimal()) {
+            System.out.println("Ungültige Eingabe.");
             scanner.next(); // clear the invalid input
         }
-        amount = scanner.nextDouble();
+        amount = scanner.nextBigDecimal();
 
-        if(amount > balance){
+        if (amount.compareTo(balance) > 0) {
             System.out.println("INSUFFICIENT FUNDS.");
             return balance;  // No transfer, balance stays the same
-        } else if(amount < 0){
-            System.out.println("Amount can't be negative.");
+        } else if(amount.compareTo(BigDecimal.ZERO) < 0){
+            System.out.println("Der Betrag darf nicht negativ sein.");
             return balance;  // No transfer, balance stays the same
         } else {
-            System.out.println("Transfer successful. Amount transferred: $" + amount);
-            return balance - amount;  // Deduct transfer amount
+            System.out.println("Überweisung erfolgreich. Es wurden: $" + amount + " überwiesen.");
+            return balance.subtract(amount);  // Deduct transfer amount
         }
     }
 }
